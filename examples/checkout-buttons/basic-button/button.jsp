@@ -33,8 +33,6 @@ Map<String, String> data = new HashMap<String, String> ();
     data.put ("payer_email", "");
     data.put ("back_url_success", "https://www.success.com");
     data.put ("back_url_pending", "");
-    data.put ("excluded_payment_methods_id", "visa,master");
-    data.put ("excluded_payment_types_id", "ticket");
 
 string md5String =   "CLIENT_ID"+                    
                 "CLIENT_SECRET"+                
@@ -43,10 +41,7 @@ string md5String =   "CLIENT_ID"+
                 data.get("item_unit_price")+                // item_unit_price
 
                 data.get("item_id")+                        // item_id
-                data.get("external_reference")+             // external_reference
-                data.get("excluded_payment_types_id")+      // excluded_payment_types_id
-                data.get("excluded_payment_methods_id")+    // excluded_payment_methods_id
-                data.get("credit_card_installments");       // credit_card_installments
+                data.get("external_reference");             // external_reference
         
 // Get md5 hash
 String md5 = "";
@@ -61,14 +56,14 @@ for (byte b: md.digest(md5String.getBytes())) {
         <title>Checkout button with MD5 hash, using AJAX - Form</title>
     </head>
 	<body>
-		<form action="https://www.mercadopago.com/unified/MD5/checkout/pay" method="post" enctype="application/x-www-form-urlencoded" target="">
+		<form action="https://www.mercadopago.com/checkout/init" method="post" enctype="application/x-www-form-urlencoded" target="">
 			<!--Required authentication. Get the CLIENT_ID: 
 			Argentina: https://www.mercadopago.com/mla/herramientas/aplicaciones 
 			Brasil: https://www.mercadopago.com/mlb/ferramentas/aplicacoes -->	
 			<input type="hidden" name="client_id" value="CLIENT_ID"/>
 		
 			<!-- Hash MD5 -->
-			<input type="hidden" name="key" value="<%=md5%>"/>
+			<input type="hidden" name="md5" value="<%=md5%>"/>
 		   
 			<!-- Required -->
 			<input type="hidden" name="item_title" value="<%=data.get("item_title")%> "/>
