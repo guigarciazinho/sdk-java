@@ -1,17 +1,18 @@
-# Mercadopago SDK module for Payments integration
+# MercadoPago SDK module for Payments integration
 
 * [Usage](#usage)
-* [Using Mercadopago Checkout](#checkout)
-* [Using Mercadopago Payment collection](#payments)
+* [Using MercadoPago Checkout](#checkout)
+* [Using MercadoPago Payment collection](#payments)
 
 <a name="usage"></a>
-### Usage:
+## Usage:
 
 1. Copy **lib/mercadopago.jar** and **lib/jettison-1.0.1.jar** to your project desired folder.
 2. Add these libs in your build path project.
 
-* Get your credentials at [Mercadopago Developers Site](https://developers.mercadopago.com/beta/api-de-checkout#get-credentials).
-* Replace your **CLIENT_ID** and **CLIENT_SECRET**.
+* Get your **CLIENT_ID** and **CLIENT_SECRET** in the following address:
+	* Argentina: [https://www.mercadopago.com/mla/herramientas/aplicaciones](https://www.mercadopago.com/mla/herramientas/aplicaciones)
+	* Brazil: [https://www.mercadopago.com/mlb/ferramentas/aplicacoes](https://www.mercadopago.com/mlb/ferramentas/aplicacoes)
 
 ```JAVA
 import mercadopago.MP;
@@ -24,9 +25,9 @@ MP mp = new MP ("CLIENT_ID", "CLIENT_SECRET");
 ```
 
 <a name="checkout"></a>
-### Using Mercadopago Checkout
+## Using MercadoPago Checkout
 
-Get an existent Checkout preference:
+### Get an existent Checkout preference:
 
 ```JAVA
 JSONObject preference = mp.getPreference("PREFERENCE_ID");
@@ -34,14 +35,14 @@ JSONObject preference = mp.getPreference("PREFERENCE_ID");
 System.out.println(preference.toString());
 ```
 
-Create a Checkout preference:
+### Create a Checkout preference:
 
 ```JAVA
 JSONObject createPreferenceResult = mp.createPreference("{'items':[{'title':'Prueba','quantity':1,'currency_id':'ARS','unit_price':10.5}]}");
 System.out.println(createPreferenceResult.toString());
 ```
 
-Update an existent Checkout preference:
+### Update an existent Checkout preference:
 
 ```JAVA
 JSONObject updatePreferenceResult = mp.updatePreference("PREFERENCE_ID", "{'items':[{'title':'Prueba','quantity':1,'currency_id':'USD','unit_price':2}]}");
@@ -49,9 +50,9 @@ System.out.println(updatePreferenceResult.toString());
 ```
 
 <a name="payments"></a>
-### Using Mercadopago Payment
+## Using MercadoPago Payment
 
-Searching:
+### Searching:
 
 ```JAVA
 // Sets the filters you want
@@ -70,8 +71,12 @@ for (int i = 0; i < results.length(); i++) {
 }
 ```
 
-Receiving IPN notification:
+### Receiving IPN notification:
 
+* Go to **Mercadopago IPN configuration**:
+	* Argentina: [https://www.mercadopago.com/mla/herramientas/notificaciones](https://www.mercadopago.com/mla/herramientas/notificaciones)
+	* Brasil: [https://www.mercadopago.com/mlb/ferramentas/notificacoes](https://www.mercadopago.com/mlb/ferramentas/notificacoes)<br />
+	
 ```JAVA
 // Get the payment reported by the IPN. Glossary of attributes response in https://developers.mercadopago.com
 JSONObject payment_info = mp.getPaymentInfo(request.getParameter("ID"));
@@ -82,7 +87,7 @@ if (Integer.parseInt (payment_info.get("status").toString()) == 200) {
 }
 ```
 
-Cancel (only for pending payments):
+### Cancel (only for pending payments):
 
 ```JAVA
 JSONObject result = mp.cancelPayment(request.getParameter("ID"));
@@ -91,7 +96,7 @@ JSONObject result = mp.cancelPayment(request.getParameter("ID"));
 out.print(result);
 ```
 
-Refund (only for accredited payments):
+### Refund (only for accredited payments):
 
 ```JAVA
 JSONObject result = mp.refundPayment(request.getParameter("ID"));
