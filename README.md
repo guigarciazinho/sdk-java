@@ -24,6 +24,14 @@ MP mp = new MP ("CLIENT_ID", "CLIENT_SECRET");
 
 ```
 
+### Get your Access Token:
+
+```JAVA
+String accessToken = mp.getAccessToken();
+
+System.out.println(accessToken);
+```
+
 <a name="checkout"></a>
 ## Using MercadoPago Checkout
 
