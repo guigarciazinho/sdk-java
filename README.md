@@ -49,6 +49,7 @@ System.out.println(preference.toString());
 JSONObject createPreferenceResult = mp.createPreference("{'items':[{'title':'Prueba','quantity':1,'currency_id':'ARS','unit_price':10.5}]}");
 System.out.println(createPreferenceResult.toString());
 ```
+<a href="http://developers.mercadopago.com/documentacion/recibir-pagos#glossary">Others items to use</a>
 
 ### Update an existent Checkout preference:
 
@@ -78,6 +79,8 @@ for (int i = 0; i < results.length(); i++) {
 	System.out.println(results.getJSONObject(i).getJSONObject("collection").getString("status"));
 }
 ```
+
+<a href="http://developers.mercadopago.com/documentacion/busqueda-de-pagos-recibidos">More search examples</a>
 
 ### Receiving IPN notification:
 
@@ -112,3 +115,4 @@ JSONObject result = mp.refundPayment(request.getParameter("ID"));
 // Show result
 out.print(result);
 ```
+<a href=http://developers.mercadopago.com/documentacion/devolucion-y-cancelacion> About Cancel & Refund </a>
