@@ -27,15 +27,25 @@ import com.sun.jersey.client.apache.ApacheHttpClient;
  *
  */
 public class MP {
-	public static final String version = "0.1.5";
+	public static final String version = "0.1.8";
 
 	private final String client_id;
 	private final String client_secret;
 	private JSONObject access_data = null;
+	private boolean sandbox = false;
 	
 	public MP (final String client_id, final String client_secret) {
 		this.client_id = client_id;
 		this.client_secret = client_secret;
+	}
+
+	public boolean sandboxMode () {
+		return this.sandbox;
+	}
+
+	public boolean sandboxMode (boolean enable) {
+		this.sandbox = enable;
+		return this.sandbox;
 	}
 	
 	/**
@@ -48,7 +58,7 @@ public class MP {
 		appClientValues.put("client_id", this.client_id);
 		appClientValues.put("client_secret", this.client_secret);
 		
-        	String appClientValuesQuery = this.buildQuery(appClientValues);
+        String appClientValuesQuery = this.buildQuery(appClientValues);
 
 		JSONObject access_data = RestClient.post ("/oauth/token", appClientValuesQuery, RestClient.MIME_FORM);
 
@@ -75,7 +85,9 @@ public class MP {
 			return result;
 		}
 		
-		JSONObject paymentInfo = RestClient.get ("/collections/notifications/"+id+"?access_token="+accessToken);
+		String uriPrefix = this.sandbox ? "/sandbox" : "";
+			
+		JSONObject paymentInfo = RestClient.get (uriPrefix + "/collections/notifications/"+id+"?access_token="+accessToken);
 		
 		return paymentInfo;
 	}
@@ -154,7 +166,9 @@ public class MP {
 		
 		String filtersQuery = this.buildQuery (filters);
 		
-		JSONObject collectionResult = RestClient.get ("/collections/search?"+filtersQuery+"&access_token="+accessToken);
+		String uriPrefix = this.sandbox ? "/sandbox" : "";
+			
+		JSONObject collectionResult = RestClient.get (uriPrefix + "/collections/search?"+filtersQuery+"&access_token="+accessToken);
 		return collectionResult;
 	}
 
