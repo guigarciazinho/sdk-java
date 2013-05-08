@@ -7,9 +7,6 @@
 <a name="usage"></a>
 ## Usage:
 
-1. Copy **lib/mercadopago.jar** and **lib/jettison-1.0.1.jar** to your project desired folder.
-2. Add these libs in your build path project.
-
 * Get your **CLIENT_ID** and **CLIENT_SECRET** in the following address:
 	* Argentina: [https://www.mercadopago.com/mla/herramientas/aplicaciones](https://www.mercadopago.com/mla/herramientas/aplicaciones)
 	* Brazil: [https://www.mercadopago.com/mlb/ferramentas/aplicacoes](https://www.mercadopago.com/mlb/ferramentas/aplicacoes)
