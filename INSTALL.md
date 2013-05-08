@@ -1,6 +1,6 @@
-# MercadoPago Java SDK
+# MercadoPago SDK
 
-This is the official SDK for MercadoPago.
+This is the official Java SDK for MercadoPago.
 
 ## How do I install it?
 
