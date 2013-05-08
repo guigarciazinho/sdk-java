@@ -6,7 +6,7 @@ This is the official Java SDK for MercadoPago's Platform.
 
 How do I install it using maven:
 
-Just add to your pom the following repository
+Just add to your pom.xml the following repository
 
 ```XML
 <repositories>
