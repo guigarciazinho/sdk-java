@@ -1,14 +1,16 @@
 # MercadoPago SDK module for Payments integration
 
+* [Install](#install)
 * [Usage](#usage)
 * [Using MercadoPago Checkout](#checkout)
 * [Using MercadoPago Payment collection](#payments)
 
+<a name="install"></a>
+## Install:
+* You can see how to install MercadoPago SDK <a href="https://github.com/mercadopago/sdk-java/blob/master/INSTALL.md">here</a>.
+
 <a name="usage"></a>
 ## Usage:
-
-1. Copy **lib/mercadopago.jar** and **lib/jettison-1.0.1.jar** to your project desired folder.
-2. Add these libs in your build path project.
 
 * Get your **CLIENT_ID** and **CLIENT_SECRET** in the following address:
 	* Argentina: [https://www.mercadopago.com/mla/herramientas/aplicaciones](https://www.mercadopago.com/mla/herramientas/aplicaciones)
