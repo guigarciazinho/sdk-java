@@ -48,6 +48,6 @@ And that's it!
 
 ## How can use MercadoPago´s Java SDK ?
 
-<a href="https://github.com/mercadopago/sdk-java/blob/master/README.md" name="usage">Usage</a>
+* You can see how to use MercadoPago Java Sdk here: <a href="https://github.com/mercadopago/sdk-java/blob/master/README.md" name="usage">Usage</a>
 
 

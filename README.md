@@ -7,7 +7,7 @@
 
 <a name="install"></a>
 ## Install:
-* You can see how install MercadoPago´s Java Sdk here: <a href="https://github.com/mercadopago/sdk-java/blob/master/INSTALL.md">Installing Java Sdk</a>
+* You can see how install MercadoPago Java Sdk here: <a href="https://github.com/mercadopago/sdk-java/blob/master/INSTALL.md">Installing Java Sdk</a>
 
 <a name="usage"></a>
 ## Usage:
