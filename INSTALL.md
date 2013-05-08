@@ -2,7 +2,7 @@
 
 This is the official Java SDK for MercadoPago's Platform.
 
-## How do I install it?:
+## How do I install it?
 
 How do I install it using maven:
 
@@ -48,6 +48,6 @@ And that's it!
 
 ## How can use MercadoPago´s Java SDK ?
 
-* You can see how to use MercadoPago Java Sdk here: <a href="https://github.com/mercadopago/sdk-java/blob/master/README.md" name="usage">Usage</a>
+* You can see how to use MercadoPago SDK <a href="https://github.com/mercadopago/sdk-java/blob/master/README.md" name="usage">here</a>.
 
 
