@@ -41,7 +41,7 @@ And that's it!
 
 #### Another way to integrate
 
-1. Copy **lib/mercadopago.jar** and **lib/jettison-1.0.1.jar** to your project desired folder.
+1. Copy **lib/mercadopago.jar**, **lib/jettison-1.0.1.jar**, **commons-codec-1.6.jar**, **commons-logging-1.1.1.jar**, **fluent-hc-4.2.5.jar**, **httpclient-4.2.5.jar**, **httpclient-cache-4.2.5.jar**, **httpcore-4.2.4.jar** and **httpmime-4.2.5.jar** to your project desired folder.
 2. Add these libs in your build path project.
 
 And that's it!
