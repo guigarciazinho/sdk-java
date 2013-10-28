@@ -13,10 +13,11 @@
 ## Usage:
 
 * Get your **CLIENT_ID** and **CLIENT_SECRET** in the following address:
-	* Argentina: [https://www.mercadopago.com/mla/herramientas/aplicaciones](https://www.mercadopago.com/mla/herramientas/aplicaciones)
-	* Brazil: [https://www.mercadopago.com/mlb/ferramentas/aplicacoes](https://www.mercadopago.com/mlb/ferramentas/aplicacoes)
-	* México: [https://www.mercadopago.com/mlm/herramientas/aplicaciones](https://www.mercadopago.com/mlm/herramientas/aplicaciones)
-	* Venezuela: [https://www.mercadopago.com/mlv/herramientas/aplicaciones](https://www.mercadopago.com/mlv/herramientas/aplicaciones)
+    * Argentina: [https://www.mercadopago.com/mla/herramientas/aplicaciones](https://www.mercadopago.com/mla/herramientas/aplicaciones)
+    * Brazil: [https://www.mercadopago.com/mlb/ferramentas/aplicacoes](https://www.mercadopago.com/mlb/ferramentas/aplicacoes)
+    * México: [https://www.mercadopago.com/mlm/herramientas/aplicaciones](https://www.mercadopago.com/mlm/herramientas/aplicaciones)
+    * Venezuela: [https://www.mercadopago.com/mlv/herramientas/aplicaciones](https://www.mercadopago.com/mlv/herramientas/aplicaciones)
+    * Colombia: [https://www.mercadopago.com/mco/herramientas/aplicaciones](https://www.mercadopago.com/mco/herramientas/aplicaciones)
 
 ```JAVA
 import mercadopago.MP;
@@ -70,7 +71,7 @@ System.out.println(updatePreferenceResult.toString());
 ```JAVA
 // Sets the filters you want
 Map<String, Object> filters = new HashMap<String, Object> ();
-   filters.put("site_id", "MLA"); // Argentina: MLA; Brasil: MLB
+   filters.put("site_id", "MLA"); // Argentina: MLA; Brasil: MLB; Mexico: MLM; Venezuela: MLV; Colombia: MCO
    filters.put("external_reference", "Bill001");
         
 // Search payment data according to filters
@@ -78,9 +79,9 @@ JSONObject searchResult = mp.searchPayment (filters);
 JSONArray results = searchResult.getJSONObject("response").getJSONArray("results");
 
 for (int i = 0; i < results.length(); i++) {
-	System.out.println(results.getJSONObject(i).getJSONObject("collection").getString("id"));
-	System.out.println(results.getJSONObject(i).getJSONObject("collection").getString("external_reference"));
-	System.out.println(results.getJSONObject(i).getJSONObject("collection").getString("status"));
+    System.out.println(results.getJSONObject(i).getJSONObject("collection").getString("id"));
+    System.out.println(results.getJSONObject(i).getJSONObject("collection").getString("external_reference"));
+    System.out.println(results.getJSONObject(i).getJSONObject("collection").getString("status"));
 }
 ```
 
@@ -89,10 +90,11 @@ for (int i = 0; i < results.length(); i++) {
 ### Receiving IPN notification:
 
 * Go to **Mercadopago IPN configuration**:
-	* Argentina: [https://www.mercadopago.com/mla/herramientas/notificaciones](https://www.mercadopago.com/mla/herramientas/notificaciones)
-	* Brasil: [https://www.mercadopago.com/mlb/ferramentas/notificacoes](https://www.mercadopago.com/mlb/ferramentas/notificacoes)
-	* México: [https://www.mercadopago.com/mlm/herramientas/notificaciones](https://www.mercadopago.com/mlm/herramientas/notificaciones)
-	* Venezuela: [https://www.mercadopago.com/mlv/herramientas/notificaciones](https://www.mercadopago.com/mlv/herramientas/notificaciones)<br />
+    * Argentina: [https://www.mercadopago.com/mla/herramientas/notificaciones](https://www.mercadopago.com/mla/herramientas/notificaciones)
+    * Brasil: [https://www.mercadopago.com/mlb/ferramentas/notificacoes](https://www.mercadopago.com/mlb/ferramentas/notificacoes)
+    * México: [https://www.mercadopago.com/mlm/herramientas/notificaciones](https://www.mercadopago.com/mlm/herramientas/notificaciones)
+    * Venezuela: [https://www.mercadopago.com/mlv/herramientas/notificaciones](https://www.mercadopago.com/mlv/herramientas/notificaciones)
+    * Colombia: [https://www.mercadopago.com/mco/herramientas/notificaciones](https://www.mercadopago.com/mco/herramientas/notificaciones)<br />
 
 ```JAVA
 // Get the payment reported by the IPN. Glossary of attributes response in https://developers.mercadopago.com
