@@ -7,7 +7,36 @@
 
 <a name="install"></a>
 ## Install:
-* You can see how to install MercadoPago SDK <a href="https://github.com/mercadopago/sdk-java/blob/master/INSTALL.md">here</a>.
+
+Install it using maven:
+
+Just add to your pom.xml the following repository
+
+```XML
+<repositories>
+    ...
+    <repository>
+        <id>mercadopago</id>
+        <url>https://github.com/mercadopago/sdk-java/tree/master/releases</url>
+    </repository>
+    ...
+</repositories>  
+```
+
+Then add the dependency
+
+```XML
+ <dependencies>
+    ...
+    <dependency>
+        <groupId>com.mercadopago</groupId>
+        <artifactId>sdk</artifactId>
+        <version>0.2.1</version>
+    </dependency>
+    ...
+</dependencies>
+```
+And that's it!
 
 <a name="usage"></a>
 ## Usage:
