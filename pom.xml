@@ -76,11 +76,11 @@
 	<distributionManagement>
 		<repository>
 				<id>repo</id>
-				<url>https://github.com/mercadopago/sdk-java/tree/master/releases</url>
+				<url>https://github.com/mercadopago/sdk-java/raw/master/releases</url>
 		</repository>
 		<snapshotRepository>
 				<id>snapshot-repo</id>
-				<url>https://github.com/mercadopago/sdk-java/tree/master/snapshots</url>
+				<url>https://github.com/mercadopago/sdk-java/raw/master/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>

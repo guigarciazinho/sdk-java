@@ -17,7 +17,7 @@ Just add to your pom.xml the following repository
     ...
     <repository>
         <id>mercadopago</id>
-        <url>https://github.com/mercadopago/sdk-java/tree/master/releases</url>
+        <url>https://github.com/mercadopago/sdk-java/raw/master/releases</url>
     </repository>
     ...
 </repositories>  
