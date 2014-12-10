@@ -12,8 +12,8 @@ Receive IPN
 // Create an instance with your MercadoPago credentials (CLIENT_ID and CLIENT_SECRET): 
 // Argentina: https://www.mercadopago.com/mla/herramientas/aplicaciones 
 // Brasil: https://www.mercadopago.com/mlb/ferramentas/aplicacoes
-		String clientId = "2872";
-		String clientSecret = "MpVkF902XmJ6HnU6YsgZOkNlbCKRML99";
+		String clientId = "CLIENT_ID";
+		String clientSecret = "CLIENT_SECRET";
 		MP mp = new MP (clientId, clientSecret);
 //MP mp = new MP ("CLIENT_ID", "CLIENT_SECRET");
 
