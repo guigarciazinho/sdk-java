@@ -29,7 +29,7 @@ import com.sun.jersey.api.client.ClientHandlerException;
  *
  */
 public class MP {
-	public static final String version = "0.2.1";
+	public static final String version = "0.3.0";
 
 	private final String client_id;
 	private final String client_secret;
@@ -60,7 +60,7 @@ public class MP {
 		appClientValues.put("client_id", this.client_id);
 		appClientValues.put("client_secret", this.client_secret);
 		
-        String appClientValuesQuery = this.buildQuery(appClientValues);
+		String appClientValuesQuery = this.buildQuery(appClientValues);
 
 		JSONObject access_data = RestClient.post ("/oauth/token", appClientValuesQuery, RestClient.MIME_FORM);
 
@@ -341,6 +341,141 @@ public class MP {
 		return preapprovalResult;
 	}
 	
+	/**
+	 * Generic resource get
+	 * @param uri
+	 * @param authenticate
+	 * @return
+	 * @throws JSONException 
+	 */
+	public JSONObject get (String uri, Map<String, Object> params, boolean authenticate) throws JSONException, Exception {
+		if (params == null) {
+			params = new HashMap<String, Object> ();
+		}
+		if (authenticate) {
+			String accessToken;
+			try {
+				accessToken = this.getAccessToken ();
+			} catch (Exception e) {
+				JSONObject result = new JSONObject(e.getMessage());
+				return result;
+			}
+
+			params.put("access_token", accessToken);
+		}
+
+		if (!params.isEmpty()) {
+			uri += (uri.contains("?") ? "&" : "?") + this.buildQuery (params);
+		}
+
+		JSONObject result = RestClient.get (uri);
+		return result;
+	}
+	/**
+	 * Generic resource get
+	 * @param uri
+	 * @param authenticate = true
+	 * @return
+	 * @throws JSONException 
+	 */
+	public JSONObject get (String uri) throws JSONException, Exception {
+		return this.get(uri, null, true);
+	}
+	
+	/**
+	 * Generic resource post
+	 * @param uri
+	 * @param data
+	 * @return
+	 * @throws JSONException 
+	 */
+	public JSONObject post (String uri, String data) throws JSONException, Exception {
+		JSONObject dataJSON = new JSONObject (data);
+		return this.post(uri, dataJSON);
+	}
+	public JSONObject post (String uri, String data, Map<String, Object> params) throws JSONException, Exception {
+		JSONObject dataJSON = new JSONObject (data);
+		return this.post(uri, dataJSON, params);
+	}
+	public JSONObject post (String uri, Map<?, ?> data) throws JSONException, Exception {
+		JSONObject dataJSON = map2json (data);
+		return this.post(uri, dataJSON);
+	}
+	public JSONObject post (String uri, Map<?, ?> data, Map<String, Object> params) throws JSONException, Exception {
+		JSONObject dataJSON = map2json (data);
+		return this.post(uri, dataJSON, params);
+	}
+	public JSONObject post (String uri, JSONObject data) throws JSONException, Exception {
+		return this.post(uri, data, null);
+	}
+	public JSONObject post (String uri, JSONObject data, Map<String, Object> params) throws JSONException, Exception {
+		if (params == null) {
+			params = new HashMap<String, Object> ();
+		}
+		String accessToken;
+		try {
+			accessToken = this.getAccessToken ();
+			params.put("access_token", accessToken);
+		} catch (Exception e) {
+			JSONObject result = new JSONObject(e.getMessage());
+			return result;
+		}
+
+		if (!params.isEmpty()) {
+			uri += (uri.contains("?") ? "&" : "?") + this.buildQuery (params);
+		}
+
+		JSONObject result = RestClient.post (uri, data);
+		return result;
+	}
+	
+	/**
+	 * Generic resource put
+	 * @param uri
+	 * @param data
+	 * @return
+	 * @throws JSONException 
+	 */
+	public JSONObject put (String uri, String data) throws JSONException, Exception {
+		JSONObject dataJSON = new JSONObject (data);
+		return this.put(uri, dataJSON);
+	}
+	public JSONObject put (String uri, String data, Map<String, Object> params) throws JSONException, Exception {
+		JSONObject dataJSON = new JSONObject (data);
+		return this.put(uri, dataJSON, params);
+	}
+	public JSONObject put (String uri, Map<?, ?> data) throws JSONException, Exception {
+		JSONObject dataJSON = map2json (data);
+		return this.put(uri, dataJSON);
+	}
+	public JSONObject put (String uri, Map<?, ?> data, Map<String, Object> params) throws JSONException, Exception {
+		JSONObject dataJSON = map2json (data);
+		return this.put(uri, dataJSON, params);
+	}
+	public JSONObject put (String uri, JSONObject data) throws JSONException, Exception {
+		return this.put(uri, data, null);
+	}
+	public JSONObject put (String uri, JSONObject data, Map<String, Object> params) throws JSONException, Exception {
+		if (params == null) {
+			params = new HashMap<String, Object> ();
+		}
+		String accessToken;
+		try {
+			accessToken = this.getAccessToken ();
+			params.put("access_token", accessToken);
+		} catch (Exception e) {
+			JSONObject result = new JSONObject(e.getMessage());
+			return result;
+		}
+
+		if (!params.isEmpty()) {
+			uri += (uri.contains("?") ? "&" : "?") + this.buildQuery (params);
+		}
+
+		JSONObject result = RestClient.put (uri, data);
+		return result;
+	}
+	
 	/*****************************************************************************************************/
 	private String buildQuery (Map<String, Object> params) {
 		String[] query = new String[params.size()];
@@ -360,32 +495,32 @@ public class MP {
 	private static JSONObject map2json (Map<?, ?> preference) throws JSONException, Exception {
 		JSONObject result = new JSONObject();
 
-        for (Entry<?, ?> entry : preference.entrySet()) {
-        	if (entry.getValue () instanceof Collection) {
-        		result.put((String) entry.getKey(), map2json((Collection<?>)entry.getValue()));
-        	} else if (entry.getValue() instanceof Map) {
-        		result.put((String) entry.getKey(), map2json((Map<?, ?>)entry.getValue()));
-        	} else {
-        		result.put((String) entry.getKey(), entry.getValue());
-        	}
-        }
+		for (Entry<?, ?> entry : preference.entrySet()) {
+			if (entry.getValue () instanceof Collection) {
+				result.put((String) entry.getKey(), map2json((Collection<?>)entry.getValue()));
+			} else if (entry.getValue() instanceof Map) {
+				result.put((String) entry.getKey(), map2json((Map<?, ?>)entry.getValue()));
+			} else {
+				result.put((String) entry.getKey(), entry.getValue());
+			}
+		}
 
-        return result;
+		return result;
 	}
 
 	private static JSONArray map2json (Collection<?> collection) throws JSONException, Exception {
 		JSONArray result = new JSONArray();
 
-        for (Object object : collection) {
-        	if (object instanceof Map) {
-        		result.put(map2json((Map<?, ?>)object));
-        	} else {
-        		result.put(object);
-        	}
-        }
-        
-        return result;
-    }
+		for (Object object : collection) {
+			if (object instanceof Map) {
+				result.put(map2json((Map<?, ?>)object));
+			} else {
+				result.put(object);
+			}
+		}
+		
+		return result;
+	}
 	
 	private static class RestClient {
 		private static final String API_BASE_URL = "https://api.mercadolibre.com";
