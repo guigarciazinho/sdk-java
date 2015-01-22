@@ -31,7 +31,7 @@ Then add the dependency
     <dependency>
         <groupId>com.mercadopago</groupId>
         <artifactId>sdk</artifactId>
-        <version>0.3.0</version>
+        <version>0.3.1</version>
     </dependency>
     ...
 </dependencies>
@@ -167,6 +167,9 @@ mp.post ("/resource/uri", data, [params]);
 
 // Update a resource with "data" and optional URL params.
 mp.put ("/resource/uri", data, [params]);
+
+// Delete a resource with optional URL params.
+mp.delete ("/resource/uri", [params]);
 ```
 
  For example, if you want to get the Sites list (no params and no authentication):
