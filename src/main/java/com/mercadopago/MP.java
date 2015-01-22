@@ -29,7 +29,7 @@ import com.sun.jersey.api.client.ClientHandlerException;
  *
  */
 public class MP {
-	public static final String version = "0.3.0";
+	public static final String version = "0.3.1";
 
 	private final String client_id;
 	private final String client_secret;
@@ -371,10 +371,21 @@ public class MP {
 		JSONObject result = RestClient.get (uri);
 		return result;
 	}
+
 	/**
 	 * Generic resource get
 	 * @param uri
-	 * @param authenticate = true
+	 * @param authenticate
+	 * @return
+	 * @throws JSONException 
+	 */
+	public JSONObject get (String uri, boolean authenticate) throws JSONException, Exception {
+		return this.get(uri, null, authenticate);
+	}
+	
+	/**
+	 * Generic resource get
+	 * @param uri
 	 * @return
 	 * @throws JSONException 
 	 */
@@ -476,6 +487,43 @@ public class MP {
 		return result;
 	}
 	
+	/**
+	 * Generic resource delete
+	 * @param uri
+	 * @return
+	 * @throws JSONException 
+	 */
+	public JSONObject delete (String uri, Map<String, Object> params) throws JSONException, Exception {
+		if (params == null) {
+			params = new HashMap<String, Object> ();
+		}
+		String accessToken;
+		try {
+			accessToken = this.getAccessToken ();
+			params.put("access_token", accessToken);
+		} catch (Exception e) {
+			JSONObject result = new JSONObject(e.getMessage());
+			return result;
+		}
+
+		if (!params.isEmpty()) {
+			uri += (uri.contains("?") ? "&" : "?") + this.buildQuery (params);
+		}
+
+		JSONObject result = RestClient.delete (uri, data);
+		return result;
+	}
+	
+	/**
+	 * Generic resource delete
+	 * @param uri
+	 * @return
+	 * @throws JSONException 
+	 */
+	public JSONObject delete (String uri) throws JSONException, Exception {
+		return this.delete (uri, null);
+	}
+
 	/*****************************************************************************************************/
 	private String buildQuery (Map<String, Object> params) {
 		String[] query = new String[params.size()];
@@ -566,6 +614,14 @@ public class MP {
 		
 		public static JSONObject put (String uri, Object data, String contentType) throws JSONException {
 			return exec ("PUT", uri, data, contentType);
+		}
+		
+		public static JSONObject delete (String uri) throws JSONException {
+			return delete(uri, MIME_JSON);
+		}
+		
+		public static JSONObject delete (String uri, String contentType) throws JSONException {
+			return exec ("DELETE", uri, null, contentType);
 		}
 		
 		private static Builder buildRequest (String resourceUrl, String contentType) {
