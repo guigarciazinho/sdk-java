@@ -31,9 +31,9 @@ import com.sun.jersey.api.client.ClientHandlerException;
 public class MP {
 	public static final String version = "0.3.1";
 
-	private final String client_id;
-	private final String client_secret;
-	private final String ll_access_token;
+	private String client_id = null;
+	private String client_secret = null;
+	private String ll_access_token = null;
 	private JSONObject access_data = null;
 	private boolean sandbox = false;
 	
@@ -525,7 +525,7 @@ public class MP {
 			uri += (uri.contains("?") ? "&" : "?") + this.buildQuery (params);
 		}
 
-		JSONObject result = RestClient.delete (uri, data);
+		JSONObject result = RestClient.delete (uri);
 		return result;
 	}
 	
