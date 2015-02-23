@@ -31,7 +31,7 @@ Then add the dependency
     <dependency>
         <groupId>com.mercadopago</groupId>
         <artifactId>sdk</artifactId>
-        <version>0.3.0</version>
+        <version>0.3.1</version>
     </dependency>
     ...
 </dependencies>
@@ -40,6 +40,8 @@ And that's it!
 
 <a name="usage"></a>
 ## Usage:
+
+### ...with your credentials:
 
 * Get your **CLIENT_ID** and **CLIENT_SECRET** in the following address:
     * Argentina: [https://www.mercadopago.com/mla/herramientas/aplicaciones](https://www.mercadopago.com/mla/herramientas/aplicaciones)
@@ -55,6 +57,18 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 MP mp = new MP ("CLIENT_ID", "CLIENT_SECRET");
+
+```
+
+### ...with your long live access token:
+
+```JAVA
+import mercadopago.MP;
+
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+
+MP mp = new MP ("LL_ACCESS_TOKEN");
 
 ```
 
@@ -167,6 +181,9 @@ mp.post ("/resource/uri", data, [params]);
 
 // Update a resource with "data" and optional URL params.
 mp.put ("/resource/uri", data, [params]);
+
+// Delete a resource with optional URL params.
+mp.delete ("/resource/uri", [params]);
 ```
 
  For example, if you want to get the Sites list (no params and no authentication):

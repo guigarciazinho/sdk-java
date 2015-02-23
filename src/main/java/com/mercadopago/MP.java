@@ -29,16 +29,27 @@ import com.sun.jersey.api.client.ClientHandlerException;
  *
  */
 public class MP {
-	public static final String version = "0.3.0";
+	public static final String version = "0.3.1";
 
 	private final String client_id;
 	private final String client_secret;
+	private final String ll_access_token;
 	private JSONObject access_data = null;
 	private boolean sandbox = false;
 	
+	/**
+	* Instantiate MP with credentials
+	*/
 	public MP (final String client_id, final String client_secret) {
 		this.client_id = client_id;
 		this.client_secret = client_secret;
+	}
+
+	/**
+	* Instantiate MP with Long Live Access Token
+	*/
+	public MP (final String ll_access_token) {
+		this.ll_access_token = ll_access_token;
 	}
 
 	public boolean sandboxMode () {
@@ -55,6 +66,10 @@ public class MP {
 	 * @throws JSONException 
 	 */
 	public String getAccessToken () throws JSONException, Exception {
+		if (null != this.ll_access_token) {
+			return this.ll_access_token;
+		}
+
 		HashMap<String, Object> appClientValues = new HashMap<String, Object>();
 		appClientValues.put("grant_type", "client_credentials");
 		appClientValues.put("client_id", this.client_id);
@@ -371,10 +386,21 @@ public class MP {
 		JSONObject result = RestClient.get (uri);
 		return result;
 	}
+
 	/**
 	 * Generic resource get
 	 * @param uri
-	 * @param authenticate = true
+	 * @param authenticate
+	 * @return
+	 * @throws JSONException 
+	 */
+	public JSONObject get (String uri, boolean authenticate) throws JSONException, Exception {
+		return this.get(uri, null, authenticate);
+	}
+	
+	/**
+	 * Generic resource get
+	 * @param uri
 	 * @return
 	 * @throws JSONException 
 	 */
@@ -476,6 +502,43 @@ public class MP {
 		return result;
 	}
 	
+	/**
+	 * Generic resource delete
+	 * @param uri
+	 * @return
+	 * @throws JSONException 
+	 */
+	public JSONObject delete (String uri, Map<String, Object> params) throws JSONException, Exception {
+		if (params == null) {
+			params = new HashMap<String, Object> ();
+		}
+		String accessToken;
+		try {
+			accessToken = this.getAccessToken ();
+			params.put("access_token", accessToken);
+		} catch (Exception e) {
+			JSONObject result = new JSONObject(e.getMessage());
+			return result;
+		}
+
+		if (!params.isEmpty()) {
+			uri += (uri.contains("?") ? "&" : "?") + this.buildQuery (params);
+		}
+
+		JSONObject result = RestClient.delete (uri, data);
+		return result;
+	}
+	
+	/**
+	 * Generic resource delete
+	 * @param uri
+	 * @return
+	 * @throws JSONException 
+	 */
+	public JSONObject delete (String uri) throws JSONException, Exception {
+		return this.delete (uri, null);
+	}
+
 	/*****************************************************************************************************/
 	private String buildQuery (Map<String, Object> params) {
 		String[] query = new String[params.size()];
@@ -523,7 +586,7 @@ public class MP {
 	}
 	
 	private static class RestClient {
-		private static final String API_BASE_URL = "https://api.mercadolibre.com";
+		private static final String API_BASE_URL = "https://api.mercadopago.com";
 		public static final String MIME_JSON = "application/json";
 		public static final String MIME_FORM = "application/x-www-form-urlencoded";
 		
@@ -566,6 +629,14 @@ public class MP {
 		
 		public static JSONObject put (String uri, Object data, String contentType) throws JSONException {
 			return exec ("PUT", uri, data, contentType);
+		}
+		
+		public static JSONObject delete (String uri) throws JSONException {
+			return delete(uri, MIME_JSON);
+		}
+		
+		public static JSONObject delete (String uri, String contentType) throws JSONException {
+			return exec ("DELETE", uri, null, contentType);
 		}
 		
 		private static Builder buildRequest (String resourceUrl, String contentType) {
