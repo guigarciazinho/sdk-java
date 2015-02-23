@@ -60,7 +60,7 @@ MP mp = new MP ("CLIENT_ID", "CLIENT_SECRET");
 
 ```
 
-### ...with your secret key:
+### ...with your long live access token:
 
 ```JAVA
 import mercadopago.MP;
@@ -68,7 +68,7 @@ import mercadopago.MP;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-MP mp = new MP ("SECRET_KEY");
+MP mp = new MP ("LL_ACCESS_TOKEN");
 
 ```
 

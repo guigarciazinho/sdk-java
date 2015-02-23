@@ -33,7 +33,7 @@ public class MP {
 
 	private final String client_id;
 	private final String client_secret;
-	private final String secret_key;
+	private final String ll_access_token;
 	private JSONObject access_data = null;
 	private boolean sandbox = false;
 	
@@ -46,10 +46,10 @@ public class MP {
 	}
 
 	/**
-	* Instantiate MP with secret key
+	* Instantiate MP with Long Live Access Token
 	*/
-	public MP (final String secret_key) {
-		this.secret_key = secret_key;
+	public MP (final String ll_access_token) {
+		this.ll_access_token = ll_access_token;
 	}
 
 	public boolean sandboxMode () {
@@ -66,8 +66,8 @@ public class MP {
 	 * @throws JSONException 
 	 */
 	public String getAccessToken () throws JSONException, Exception {
-		if (null != this.secret_key) {
-			return this.secret_key;
+		if (null != this.ll_access_token) {
+			return this.ll_access_token;
 		}
 
 		HashMap<String, Object> appClientValues = new HashMap<String, Object>();
@@ -586,7 +586,7 @@ public class MP {
 	}
 	
 	private static class RestClient {
-		private static final String API_BASE_URL = "https://api.mercadolibre.com";
+		private static final String API_BASE_URL = "https://api.mercadopago.com";
 		public static final String MIME_JSON = "application/json";
 		public static final String MIME_FORM = "application/x-www-form-urlencoded";
 		
