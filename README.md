@@ -41,6 +41,8 @@ And that's it!
 <a name="usage"></a>
 ## Usage:
 
+### ...with your credentials:
+
 * Get your **CLIENT_ID** and **CLIENT_SECRET** in the following address:
     * Argentina: [https://www.mercadopago.com/mla/herramientas/aplicaciones](https://www.mercadopago.com/mla/herramientas/aplicaciones)
     * Brazil: [https://www.mercadopago.com/mlb/ferramentas/aplicacoes](https://www.mercadopago.com/mlb/ferramentas/aplicacoes)
@@ -55,6 +57,18 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 MP mp = new MP ("CLIENT_ID", "CLIENT_SECRET");
+
+```
+
+### ...with your secret key:
+
+```JAVA
+import mercadopago.MP;
+
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+
+MP mp = new MP ("SECRET_KEY");
 
 ```
 

@@ -33,12 +33,23 @@ public class MP {
 
 	private final String client_id;
 	private final String client_secret;
+	private final String secret_key;
 	private JSONObject access_data = null;
 	private boolean sandbox = false;
 	
+	/**
+	* Instantiate MP with credentials
+	*/
 	public MP (final String client_id, final String client_secret) {
 		this.client_id = client_id;
 		this.client_secret = client_secret;
+	}
+
+	/**
+	* Instantiate MP with secret key
+	*/
+	public MP (final String secret_key) {
+		this.secret_key = secret_key;
 	}
 
 	public boolean sandboxMode () {
@@ -55,6 +66,10 @@ public class MP {
 	 * @throws JSONException 
 	 */
 	public String getAccessToken () throws JSONException, Exception {
+		if (null != this.secret_key) {
+			return this.secret_key;
+		}
+
 		HashMap<String, Object> appClientValues = new HashMap<String, Object>();
 		appClientValues.put("grant_type", "client_credentials");
 		appClientValues.put("client_id", this.client_id);
