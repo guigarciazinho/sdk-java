@@ -29,7 +29,7 @@ import com.sun.jersey.api.client.ClientHandlerException;
  *
  */
 public class MP {
-	public static final String version = "0.3.1";
+	public static final String version = "0.3.2";
 
 	private String client_id = null;
 	private String client_secret = null;
@@ -388,6 +388,17 @@ public class MP {
 	}
 
 	/**
+	 * Generic resource get (authenticated)
+	 * @param uri
+	 * @param params
+	 * @return
+	 * @throws JSONException 
+	 */
+	public JSONObject get (String uri, Map<String, Object> params) throws JSONException, Exception {
+		return this.get(uri, params, true);
+	}
+	
+	/**
 	 * Generic resource get
 	 * @param uri
 	 * @param authenticate
@@ -399,7 +410,7 @@ public class MP {
 	}
 	
 	/**
-	 * Generic resource get
+	 * Generic resource get (authenticated)
 	 * @param uri
 	 * @return
 	 * @throws JSONException 
