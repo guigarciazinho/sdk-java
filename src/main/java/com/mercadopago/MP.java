@@ -29,7 +29,7 @@ import com.sun.jersey.api.client.ClientHandlerException;
  *
  */
 public class MP {
-	public static final String version = "0.3.2";
+	public static final String version = "0.3.3";
 
 	private String client_id = null;
 	private String client_secret = null;
@@ -607,7 +607,9 @@ public class MP {
 			JSONObject response = new JSONObject ();
 			response.put("status", apiHttpCode);
 			try {
-				response.put("response", apiResult.getEntity(JSONObject.class));
+				String responseBody = apiResult.getEntity(String.class);
+
+				response.put("response", responseBody.indexOf("[") == 0 ? new JSONArray(responseBody) : new JSONObject(responseBody));
 			} catch (ClientHandlerException e) {
 				response.put("error", "response error");
 				response.put("response", apiResult.toString());
