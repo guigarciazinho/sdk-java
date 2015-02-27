@@ -17,6 +17,7 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.WebResource.Builder;
 import com.sun.jersey.client.apache.ApacheHttpClient;
+import com.sun.jersey.client.apache.config.DefaultApacheHttpClientConfig;
 
 import com.sun.jersey.api.client.ClientHandlerException;
 
@@ -29,14 +30,13 @@ import com.sun.jersey.api.client.ClientHandlerException;
  *
  */
 public class MP {
-	public static final String version = "0.3.3";
+	public static final String version = "0.3.4";
 
 	private String client_id = null;
 	private String client_secret = null;
 	private String ll_access_token = null;
 	private JSONObject access_data = null;
 	private boolean sandbox = false;
-	
 	/**
 	* Instantiate MP with credentials
 	*/
@@ -59,6 +59,16 @@ public class MP {
 	public boolean sandboxMode (boolean enable) {
 		this.sandbox = enable;
 		return this.sandbox;
+	}
+
+	/** Set or clear proxy for communication
+	* @param proxy uri
+	*/
+	public void setProxy (String proxyHost, String proxyPort) {
+		this.setProxy (proxyHost + ":" + proxyPort);
+	}
+	public void setProxy (String proxyURI) {
+		RestClient.proxy = proxyURI;
 	}
 	
 	/**
@@ -600,20 +610,23 @@ public class MP {
 		private static final String API_BASE_URL = "https://api.mercadopago.com";
 		public static final String MIME_JSON = "application/json";
 		public static final String MIME_FORM = "application/x-www-form-urlencoded";
+		public static String proxy = null;
 		
 		private static JSONObject exec (String method, String uri, Object data, String contentType) throws JSONException {
-			ClientResponse apiResult = buildRequest(API_BASE_URL+uri, contentType).method(method, ClientResponse.class, data);
-			int apiHttpCode = apiResult.getStatus();
+			ClientResponse apiResult;
 			JSONObject response = new JSONObject ();
-			response.put("status", apiHttpCode);
+
 			try {
+				apiResult = buildRequest(API_BASE_URL+uri, contentType).method(method, ClientResponse.class, data);
+				int apiHttpCode = apiResult.getStatus();
+
+				response.put("status", apiHttpCode);
+	
 				String responseBody = apiResult.getEntity(String.class);
 
 				response.put("response", responseBody.indexOf("[") == 0 ? new JSONArray(responseBody) : new JSONObject(responseBody));
-			} catch (ClientHandlerException e) {
-				response.put("error", "response error");
-				response.put("response", apiResult.toString());
 			} catch (Exception e) {
+				response.put("status", 500);
 				response.put("error", e.getMessage());
 			}
 			
@@ -654,7 +667,12 @@ public class MP {
 		
 		private static Builder buildRequest (String resourceUrl, String contentType) {
 			// Obtenemos cliente Http de Apache
-			Client client = ApacheHttpClient.create();
+			DefaultApacheHttpClientConfig config = new DefaultApacheHttpClientConfig();
+			if (null != proxy) {
+				config.getProperties().put(DefaultApacheHttpClientConfig.PROPERTY_PROXY_URI, "http://127.0.0.1:80");
+			}
+
+        			ApacheHttpClient client = ApacheHttpClient.create(config);
 
 			WebResource resource = client.resource(resourceUrl);
 			Builder req = resource.type(contentType).accept("application/json");
