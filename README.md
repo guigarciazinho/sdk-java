@@ -31,7 +31,7 @@ Then add the dependency
     <dependency>
         <groupId>com.mercadopago</groupId>
         <artifactId>sdk</artifactId>
-        <version>0.3.3</version>
+        <version>0.3.4</version>
     </dependency>
     ...
 </dependencies>
