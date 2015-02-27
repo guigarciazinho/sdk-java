@@ -12,14 +12,11 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.WebResource.Builder;
 import com.sun.jersey.client.apache.ApacheHttpClient;
 import com.sun.jersey.client.apache.config.DefaultApacheHttpClientConfig;
-
-import com.sun.jersey.api.client.ClientHandlerException;
 
 /**
  * MercadoPago Integration Library
@@ -669,7 +666,7 @@ public class MP {
 			// Obtenemos cliente Http de Apache
 			DefaultApacheHttpClientConfig config = new DefaultApacheHttpClientConfig();
 			if (null != proxy) {
-				config.getProperties().put(DefaultApacheHttpClientConfig.PROPERTY_PROXY_URI, "http://127.0.0.1:80");
+				config.getProperties().put(DefaultApacheHttpClientConfig.PROPERTY_PROXY_URI, proxy);
 			}
 
         			ApacheHttpClient client = ApacheHttpClient.create(config);
