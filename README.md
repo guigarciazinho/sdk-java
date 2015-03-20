@@ -51,7 +51,7 @@ And that's it!
     * Colombia: [https://www.mercadopago.com/mco/herramientas/aplicaciones](https://www.mercadopago.com/mco/herramientas/aplicaciones)
 
 ```JAVA
-import mercadopago.MP;
+import com.mercadopago.MP;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -63,7 +63,7 @@ MP mp = new MP ("CLIENT_ID", "CLIENT_SECRET");
 ### ...with your long live access token:
 
 ```JAVA
-import mercadopago.MP;
+import com.mercadopago.MP;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -114,8 +114,8 @@ System.out.println(updatePreferenceResult.toString());
 ```JAVA
 // Sets the filters you want
 Map<String, Object> filters = new HashMap<String, Object> ();
-   filters.put("site_id", "MLA"); // Argentina: MLA; Brasil: MLB; Mexico: MLM; Venezuela: MLV; Colombia: MCO
-   filters.put("external_reference", "Bill001");
+filters.put("site_id", "MLA"); // Argentina: MLA; Brasil: MLB; Mexico: MLM; Venezuela: MLV; Colombia: MCO
+filters.put("external_reference", "Bill001");
         
 // Search payment data according to filters
 JSONObject searchResult = mp.searchPayment (filters);
@@ -140,36 +140,36 @@ for (int i = 0; i < results.length(); i++) {
     * Colombia: [https://www.mercadopago.com/mco/herramientas/notificaciones](https://www.mercadopago.com/mco/herramientas/notificaciones)<br />
 
 ```JAVA
-        //Get your access token
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("access_token", mp.getAccessToken());
-            JSONObject merchantOrderInfo=null;
+// Get your access token
+Map<String, Object> params = new HashMap<String, Object>();
+params.put("access_token", mp.getAccessToken());
+JSONObject merchantOrderInfo=null;
              
-            // Get the merchant_order reported by the IPN. Glossary of attributes response in https://developers.mercadopago.com
-            if(request.getParameter("topic").equals("merchant_order")){
-                merchantOrderInfo = mp.get("/merchant_orders/" + request.getParameter("id"), params, false);
-                // Get the payment reported by the IPN. Glossary of attributes response in https://developers.mercadopago.com
-            }else if(request.getParameter("topic").equals("payment")){
-                JSONObject paymentInfo = mp.get("/collections/notifications/" + request.getParameter("id"), params, false);
-                merchantOrderInfo = mp.get("/merchant_orders/" + paymentInfo.getJSONObject("response").getJSONObject("collection").getString("merchant_order_id"), params, false);
-            }
-            //If the payment's transaction amount is equal (or bigger) than the merchant order's amount you can release your items 
-            if (merchantOrderInfo.getInt("status") == 200) {
-                Double transactionAmountPayments = 0D;
-                Double transactionAmountOrder = merchantOrderInfo.getJSONObject("response").getDouble("total_amount");
-                JSONArray payments=merchantOrderInfo.getJSONObject("response").getJSONArray("payments");
-                for (int i=0; i < payments.length(); i++) {
-                    JSONObject payment = payments.getJSONObject(i);
-                    if(payment.getString("status").equals("approved")){
-                        transactionAmountPayments += payment.getDouble("transaction_amount");
-                    }   
-                }
-                if(transactionAmountPayments >= transactionAmountOrder){
-                    System.out.print("release your items");
-                }else{
-                    System.out.print("dont release your items");
-                }
-            }
+// Get the merchant_order reported by the IPN. Glossary of attributes response in https://developers.mercadopago.com
+if (request.getParameter("topic").equals("merchant_order")) {
+    merchantOrderInfo = mp.get("/merchant_orders/" + request.getParameter("id"), params, false);
+    // Get the payment reported by the IPN. Glossary of attributes response in https://developers.mercadopago.com
+} else if (request.getParameter("topic").equals("payment")) {
+    JSONObject paymentInfo = mp.get("/collections/notifications/" + request.getParameter("id"), params, false);
+    merchantOrderInfo = mp.get("/merchant_orders/" + paymentInfo.getJSONObject("response").getJSONObject("collection").getString("merchant_order_id"), params, false);
+}
+//If the payment's transaction amount is equal (or bigger) than the merchant order's amount you can release your items
+if (merchantOrderInfo.getInt("status") == 200) {
+    Double transactionAmountPayments = 0D;
+    Double transactionAmountOrder = merchantOrderInfo.getJSONObject("response").getDouble("total_amount");
+    JSONArray payments=merchantOrderInfo.getJSONObject("response").getJSONArray("payments");
+    for (int i=0; i < payments.length(); i++) {
+        JSONObject payment = payments.getJSONObject(i);
+        if (payment.getString("status").equals("approved")) {
+            transactionAmountPayments += payment.getDouble("transaction_amount");
+        }   
+    }
+    if (transactionAmountPayments >= transactionAmountOrder) {
+        System.out.print("release your items");
+    } else {
+        System.out.print("dont release your items");
+    }
+}
 ```
 
 ### Cancel (only for pending payments):
@@ -215,4 +215,4 @@ mp.delete ("/resource/uri", [params]);
 JSONObject result = mp.get ("/sites", null, false);
 
 out.print(result);
-```
+```repository
