@@ -1,12 +1,12 @@
 # MercadoPago SDK module for Payments integration
 
 * [Install](#install)
-* [Usage](#usage)
-* [Using MercadoPago Checkout](#checkout)
-* [Using MercadoPago Payment collection](#payments)
+* [Basic checkout](#basic-checkout)
+* [Customized checkout](#custom-checkout)
+* [Generic methods](#generic-methods)
 
 <a name="install"></a>
-## Install:
+## Install
 
 Install it using maven:
 
@@ -38,10 +38,10 @@ Then add the dependency
 ```
 And that's it!
 
-<a name="usage"></a>
-## Usage:
+<a name="basic-checkout"></a>
+## Basic checkout
 
-### ...with your credentials:
+### Configure your credentials
 
 * Get your **CLIENT_ID** and **CLIENT_SECRET** in the following address:
     * Argentina: [https://www.mercadopago.com/mla/herramientas/aplicaciones](https://www.mercadopago.com/mla/herramientas/aplicaciones)
@@ -60,30 +60,9 @@ MP mp = new MP ("CLIENT_ID", "CLIENT_SECRET");
 
 ```
 
-### ...with your long live access token:
+### Preferences
 
-```JAVA
-import mercadopago.MP;
-
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
-
-MP mp = new MP ("LL_ACCESS_TOKEN");
-
-```
-
-### Get your Access Token:
-
-```JAVA
-String accessToken = mp.getAccessToken();
-
-System.out.println(accessToken);
-```
-
-<a name="checkout"></a>
-## Using MercadoPago Checkout
-
-### Get an existent Checkout preference:
+#### Get an existent Checkout preference
 
 ```JAVA
 JSONObject preference = mp.getPreference("PREFERENCE_ID");
@@ -91,25 +70,23 @@ JSONObject preference = mp.getPreference("PREFERENCE_ID");
 System.out.println(preference.toString());
 ```
 
-### Create a Checkout preference:
+#### Create a Checkout preference
 
 ```JAVA
 JSONObject createPreferenceResult = mp.createPreference("{'items':[{'title':'Prueba','quantity':1,'currency_id':'ARS','unit_price':10.5}]}");
 System.out.println(createPreferenceResult.toString());
 ```
-<a href="http://developers.mercadopago.com/documentacion/recibir-pagos#glossary">Others items to use</a>
 
-### Update an existent Checkout preference:
+#### Update an existent Checkout preference
 
 ```JAVA
 JSONObject updatePreferenceResult = mp.updatePreference("PREFERENCE_ID", "{'items':[{'title':'Prueba','quantity':1,'currency_id':'USD','unit_price':2}]}");
 System.out.println(updatePreferenceResult.toString());
 ```
 
-<a name="payments"></a>
-## Using MercadoPago Payment
+### Payments/Collections
 
-### Searching:
+#### Search for payments
 
 ```JAVA
 // Sets the filters you want
@@ -128,20 +105,11 @@ for (int i = 0; i < results.length(); i++) {
 }
 ```
 
-<a href="http://developers.mercadopago.com/documentacion/busqueda-de-pagos-recibidos">More search examples</a>
-
-### Receiving IPN notification:
-
-* Go to **Mercadopago IPN configuration**:
-    * Argentina: [https://www.mercadopago.com/mla/herramientas/notificaciones](https://www.mercadopago.com/mla/herramientas/notificaciones)
-    * Brasil: [https://www.mercadopago.com/mlb/ferramentas/notificacoes](https://www.mercadopago.com/mlb/ferramentas/notificacoes)
-    * México: [https://www.mercadopago.com/mlm/herramientas/notificaciones](https://www.mercadopago.com/mlm/herramientas/notificaciones)
-    * Venezuela: [https://www.mercadopago.com/mlv/herramientas/notificaciones](https://www.mercadopago.com/mlv/herramientas/notificaciones)
-    * Colombia: [https://www.mercadopago.com/mco/herramientas/notificaciones](https://www.mercadopago.com/mco/herramientas/notificaciones)<br />
+#### Get payment data
 
 ```JAVA
 // Get the payment reported by the IPN. Glossary of attributes response in https://developers.mercadopago.com
-JSONObject payment_info = mp.getPaymentInfo(request.getParameter("ID"));
+JSONObject payment_info = mp.getPayment("ID");
 
 // Show payment information
 if (Integer.parseInt (payment_info.get("status").toString()) == 200) {
@@ -149,7 +117,7 @@ if (Integer.parseInt (payment_info.get("status").toString()) == 200) {
 }
 ```
 
-### Cancel (only for pending payments):
+### Cancel (only for pending payments)
 
 ```JAVA
 JSONObject result = mp.cancelPayment(request.getParameter("ID"));
@@ -158,7 +126,7 @@ JSONObject result = mp.cancelPayment(request.getParameter("ID"));
 out.print(result);
 ```
 
-### Refund (only for accredited payments):
+### Refund (only for accredited payments)
 
 ```JAVA
 JSONObject result = mp.refundPayment(request.getParameter("ID"));
@@ -166,9 +134,56 @@ JSONObject result = mp.refundPayment(request.getParameter("ID"));
 // Show result
 out.print(result);
 ```
-<a href=http://developers.mercadopago.com/documentacion/devolucion-y-cancelacion> About Cancel & Refund </a>
 
-### Generic resources methods
+<a name="custom-checkout"></a>
+## Customized checkout
+
+### Configure your credentials
+
+* Get your **ACCESS_TOKEN** in the following address:
+    * Argentina: [https://www.mercadopago.com/mla/account/credentials](https://www.mercadopago.com/mla/account/credentials)
+    * Brazil: [https://www.mercadopago.com/mlb/account/credentials](https://www.mercadopago.com/mlb/account/credentials)
+    * Mexico: [https://www.mercadopago.com/mlm/account/credentials](https://www.mercadopago.com/mlm/account/credentials)
+    * Venezuela: [https://www.mercadopago.com/mlv/account/credentials](https://www.mercadopago.com/mlv/account/credentials)
+    * Colombia: [https://www.mercadopago.com/mco/account/credentials](https://www.mercadopago.com/mco/account/credentials)
+
+```JAVA
+import mercadopago.MP;
+
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+
+MP mp = new MP ("ACCESS_TOKEN");
+
+```
+
+### Create payment
+
+```JAVA
+mp.post ("/v1/payments", paymentData);
+```
+
+### Create customer
+
+```JAVA
+mp.post ("/v1/customers", "{'email': 'email@test.com'}");
+```
+
+### Get customer
+
+```JAVA
+mp.get ("/v1/customers/CUSTOMER_ID");
+```
+
+* View more Custom checkout related APIs in Developers Site
+    * Argentina: [https://labs.mercadopago.com.ar/developers](https://labs.mercadopago.com.ar/developers)
+    * Brazil: [https://labs.mercadopago.com.br/developers](https://labs.mercadopago.com.br/developers)
+    * Mexico: [https://labs.mercadopago.com.mx/developers](https://labs.mercadopago.com.mx/developers)
+    * Venezuela: [https://labs.mercadopago.com.ve/developers](https://labs.mercadopago.com.ve/developers)
+    * Colombia: [https://labs.mercadopago.com.co/developers](https://labs.mercadopago.com.co/developers)
+
+<a name="generic-methods"></a>
+## Generic methods
 
 You can access any other resource from the MercadoPago API using the generic methods:
 
