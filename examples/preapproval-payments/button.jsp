@@ -21,6 +21,6 @@
     </head>
     <body>
         <a href="<%= preapprovalPaymentURL %>" name="MP-Checkout" class="blue-l-arall-rn">Pay</a>
-        <script type="text/javascript" src="http://mp-tools.mlstatic.com/buttons/render.js"></script>
+        <script type="text/javascript" src="//resources.mlstatic.com/mptools/render.js"></script>
     </body>
 </html>
